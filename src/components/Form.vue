@@ -43,7 +43,7 @@
       </div>
     </form>
 
-    <!-- 卡片区域 -->
+    <!-- card -->
     <div class="row mt-5">
       <div
         class="col-lg-4 col-md-6 col-12 mb-4"
