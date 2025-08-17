@@ -2,94 +2,109 @@
   <div class="container mt-5">
     <h2 class="text-center mb-4">User Information Form</h2>
 
-    <form @submit.prevent="handleSubmit" @reset.prevent="handleReset">
+    <form @submit.prevent="submitForm">
       <div class="row">
-        <div class="col-md-6 col-12 mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" v-model="form.username" required>
+        <!-- Username -->
+        <div class="col-12 col-md-6 mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" v-model="form.username" />
         </div>
 
-        <div class="col-md-6 col-12 mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" v-model="form.password" required>
+        <!-- Password -->
+        <div class="col-12 col-md-6 mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" v-model="form.password" />
         </div>
 
-        <div class="col-md-6 col-12 mb-3">
-          <div class="form-check mt-4">
-            <input class="form-check-input" type="checkbox" id="resident" v-model="form.isResident">
-            <label class="form-check-label" for="resident">Australian Resident?</label>
+        <!-- Australian Resident -->
+        <div class="col-12 col-md-6 mb-3">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="resident"
+              v-model="form.resident"
+            />
+            <label class="form-check-label" for="resident">
+              Australian Resident?
+            </label>
           </div>
         </div>
 
-        <div class="col-md-6 col-12 mb-3">
-          <label for="gender" class="form-label">Gender</label>
-          <select class="form-select" id="gender" v-model="form.gender" required>
-            <option value="" disabled>Select one</option>
-            <option>male</option>
-            <option>female</option>
-            <option>other</option>
+        <!-- Gender -->
+        <div class="col-12 col-md-6 mb-3">
+          <label class="form-label">Gender</label>
+          <select class="form-select" v-model="form.gender">
+            <option disabled value="">Select one</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
           </select>
         </div>
 
+        <!-- Reason -->
         <div class="col-12 mb-3">
-          <label for="reason" class="form-label">Reason for joining</label>
-          <textarea class="form-control" id="reason" rows="3" v-model="form.reason"></textarea>
+          <label class="form-label">Reason for joining</label>
+          <textarea class="form-control" rows="3" v-model="form.reason"></textarea>
         </div>
-      </div>
 
-      <div class="d-flex justify-content-center gap-3">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-secondary">Clear</button>
+        <!-- Buttons -->
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-primary me-2">Submit</button>
+          <button type="button" class="btn btn-secondary" @click="clearForm">
+            Clear
+          </button>
+        </div>
       </div>
     </form>
 
-    <!-- card -->
-    <div class="row mt-5">
-      <div
-        class="col-lg-4 col-md-6 col-12 mb-4"
-        v-for="(user, index) in submittedUsers"
-        :key="index"
-      >
-        <div class="card shadow-sm">
-          <div class="card-header bg-primary text-white text-center">
-            User Information
-          </div>
-          <div class="card-body">
-            <p><strong>Username:</strong> {{ user.username }}</p>
-            <p><strong>Password:</strong> {{ user.password }}</p>
-            <p><strong>Australian Resident:</strong> {{ user.isResident ? 'Yes' : 'No' }}</p>
-            <p><strong>Gender:</strong> {{ user.gender }}</p>
-            <p><strong>Reason:</strong> {{ user.reason || 'N/A' }}</p>
-          </div>
-        </div>
+    <!-- Info Card -->
+    <div v-if="submitted" class="card mt-4 mx-auto" style="max-width: 400px">
+      <div class="card-header bg-primary text-white">User Information</div>
+      <div class="card-body">
+        <p><strong>Username:</strong> {{ form.username }}</p>
+        <p><strong>Password:</strong> {{ form.password }}</p>
+        <p><strong>Australian Resident:</strong> {{ form.resident ? 'Yes' : 'No' }}</p>
+        <p><strong>Gender:</strong> {{ form.gender }}</p>
+        <p><strong>Reason:</strong> {{ form.reason }}</p>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { reactive, ref } from 'vue'
-
-const form = reactive({
-  username: '',
-  password: '',
-  isResident: false,
-  gender: '',
-  reason: '',
-})
-
-const submittedUsers = ref([])
-
-const handleSubmit = () => {
-  submittedUsers.value.push({ ...form })
-  handleReset()
-}
-
-const handleReset = () => {
-  form.username = ''
-  form.password = ''
-  form.isResident = false
-  form.gender = ''
-  form.reason = ''
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        username: '',
+        password: '',
+        resident: false,
+        gender: '',
+        reason: '',
+      },
+      submitted: false,
+    }
+  },
+  methods: {
+    submitForm() {
+      this.submitted = true
+    },
+    clearForm() {
+      this.form = {
+        username: '',
+        password: '',
+        resident: false,
+        gender: '',
+        reason: '',
+      }
+      this.submitted = false
+    },
+  },
 }
 </script>
+
+<style scoped>
+.card-header {
+  font-weight: bold;
+}
+</style>
