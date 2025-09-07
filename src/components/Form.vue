@@ -36,6 +36,23 @@
           </div>
         </div>
 
+        <!-- Confirm Password -->
+        <div class="col-12 col-md-6 mb-3">
+          <label class="form-label" for="confirm">Confirm Password</label>
+          <input
+            id="confirm"
+            type="password"
+            class="form-control"
+            v-model="form.confirmPassword"
+            @blur="validateConfirm(true)"
+            @input="validateConfirm(false)"
+          />
+          <div v-if="errors.confirm" class="text-danger mt-1">
+            {{ errors.confirm }}
+          </div>
+        </div>
+
+
         <!-- Australian Resident -->
         <div class="col-12 col-md-6 mb-3">
           <div class="form-check">
@@ -132,6 +149,7 @@ export default {
       form: {
         username: '',
         password: '',
+        confirmPassword: '', 
         resident: false,
         gender: '',
         reason: '',
@@ -139,6 +157,7 @@ export default {
       errors: {
         username: null,
         password: null,
+        confirm: null,
         resident: null,
         gender: null,
         reason: null,
@@ -210,10 +229,25 @@ export default {
       }
     },
 
+    // 6) Validate Password
+    validateConfirm(blur) {
+      const pwd = this.form.password || '';
+      const cp = this.form.confirmPassword || '';
+      if (!cp) {
+        if (blur) this.errors.confirm = 'Please confirm your password.';
+      } else if (cp !== pwd) {
+        if (blur) this.errors.confirm = 'Passwords do not match.';
+      } else {
+        this.errors.confirm = null;
+      }
+    },
+
+
     submitForm() {
       // trigger all validators
       this.validateName(true)
       this.validatePassword(true)
+      this.validateConfirm(true);
       this.validateResident(true)
       this.validateGender(true)
       this.validateReason(true)

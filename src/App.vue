@@ -5,8 +5,26 @@ import JSONLab from './components/JSON.vue'
 import Form from "./components/Form.vue";
 </script>
 
-<template>
+<!-- <template>
   <!-- <JSON /> -->
   <!-- <JSONLab /> -->
-  <Form />
+  <!-- <Form />
+</template> --> -->
+
+<template>
+  <div>
+    <BHeader />
+    <main class="container py-3">
+      <router-view />
+    </main>
+  </div>
 </template>
+
+<script>
+import BHeader from './components/BHeader.vue'
+export default { components: { BHeader } }
+</script>
+
+<style scoped>
+/* shared page spacing can live here */
+</style>
