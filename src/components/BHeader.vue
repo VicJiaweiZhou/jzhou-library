@@ -5,7 +5,7 @@
         <!-- 首页 -->
         <li class="nav-item">
           <router-link to="/" class="nav-link" active-class="active" aria-current="page">
-            Home (Week 5)
+            Home
           </router-link>
         </li>
 
@@ -18,17 +18,32 @@
 
         <!-- Firebase 登录 -->
         <li class="nav-item">
-          <router-link to="/FireLogin" class="nav-link" active-class="active">
-            Firebase Login
+          <router-link to="/Login" class="nav-link" active-class="active">
+            Login
           </router-link>
         </li>
 
         <!-- Firebase 注册 -->
         <li class="nav-item">
-          <router-link to="/FireRegister" class="nav-link" active-class="active">
+          <router-link to="/Register" class="nav-link" active-class="active">
             Register
           </router-link>
         </li>
+
+        <li class="nav-item">
+          
+          <router-link class="nav-link" to="/addbook">Add Book</router-link>
+
+        </li>
+
+        <li class="nav-item">
+          <router-link to="/GetBookCount" class="nav-link" active-class="active">
+            Get Book Count
+          </router-link>
+        </li>
+
+
+
 
         <!-- Firebase 登出（只在已登录时显示） -->
         <li class="nav-item" v-if="currentUser">
@@ -49,22 +64,22 @@ import { useRouter } from 'vue-router'
 const auth = getAuth()
 const router = useRouter()
 
-// 保存当前用户
+
 const currentUser = ref(null)
 
-// 监听用户状态变化
+
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     currentUser.value = user
   })
 })
 
-// 登出方法
+
 const logout = async () => {
   try {
     await signOut(auth)
     currentUser.value = null
-    router.push('/FireLogin')
+    router.push('/Login')
   } catch (e) {
     console.error('Logout error:', e)
   }

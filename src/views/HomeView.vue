@@ -7,6 +7,7 @@
 
 <script>
 import Form from '../components/Form.vue'
+
 export default {
   name: 'HomeView',
   components: { Form }
